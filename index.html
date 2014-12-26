@@ -1,0 +1,179 @@
+<!doctype html>
+<html ng-app="MyTabs">
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.0.js"></script>
+      <script type="text/javascript" src="js/controllers/tabs.js"></script>
+     <script type="text/javascript" src="js/controllers/app.js"></script>
+          <script type="text/javascript" src="js/controllers/reg.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+  <body>
+<div ng-controller="imamCtrl">
+
+  <h1>Accordion</h1>
+  <accordion close-others="oneAtATime">
+    <accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      This content is straight in the template.
+    </accordion-group>
+    <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+      {{group.content}}
+    </accordion-group>
+   <accordion-group is-open="status.open">
+        <accordion-heading>
+            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        </accordion-heading>
+        This is just some content to illustrate fancy headings.
+    </accordion-group>
+     </accordion-group>
+     
+<h1>Alert</h1>
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+
+<h1>Buttons</h1>
+   
+    <pre>{{singleModel}}</pre>
+    <button type="button" class="btn btn-primary" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+        Single Toggle
+    </button>
+
+<h1>Carousel</h1>
+    <div style="height: 305px">
+    <carousel interval="myInterval">
+      <slide ng-repeat="slide in slides" active="slide.active">
+        <img ng-src="{{slide.image}}" style="margin:auto;">
+        <div class="carousel-caption">
+          <h4>Slide {{$index}}</h4>
+          <p>{{slide.text}}</p>
+        </div>
+      </slide>
+    </carousel>
+   </div>
+     <div class="col-md-6">
+      <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
+    </div>
+
+<h1 align="left">Collapse</h1>
+    <button class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse</button>
+  <hr>
+  <div collapse="isCollapsed">
+    <div class="well well-lg">Some content</div> 
+  </div>
+
+<h1>Datepicker</h1>
+   <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+
+  <div style="display:inline-block; min-height:290px;">
+        <datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="well well-sm"></datepicker>
+  </div>
+
+<h1>Dropdown</h1>
+   
+    <div class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        Button dropdown <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Angularjs team</a></li>
+        <li><a href="#">Android team</a></li>
+        <li><a href="#">iOS team</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    <h1>Modal</h1>
+
+     <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">I am a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a ng-click="selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <button class="btn btn-default" ng-click="open()">Open me!</button>
+
+     <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+
+     <h1>Pagination</h1>
+
+      <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+
+
+       <h4>Positional</h4>
+    <button popover-placement="top" popover="On the Top!" class="btn btn-default">Top</button>
+    <button popover-placement="left" popover="On the Left!" class="btn btn-default">Left</button>
+    <button popover-placement="right" popover="On the Right!" class="btn btn-default">Right</button>
+    <button popover-placement="bottom" popover="On the Bottom!" class="btn btn-default">Bottom</button>
+    
+
+    <h1>Progressbar</h1>
+     <hr />
+    <h3>Dynamic <button class="btn btn-sm btn-primary" type="button" ng-click="random()">Randomize</button></h3>
+    
+    <small><em>No animation</em></small>
+    <progressbar animate="false" value="dynamic" type="success"><b>{{dynamic}}%</b></progressbar>
+
+    <small><em>Object (changes type based on value)</em></small>
+    <progressbar class="progress-striped active" value="dynamic" type="{{type}}">{{type}} <i ng-show="showWarning">!!! Watch out !!!</i></progressbar>
+
+
+<h1>Tabs</h1>
+  <tabset justified="true">
+    <tab heading="Justified">Justified content</tab>
+    <tab heading="SJ">Short Labeled Justified content</tab>
+    <tab heading="Long Justified">Long Labeled Justified content</tab>
+  </tabset>
+
+
+<h1>Timepicker</h1>
+  <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+
+  <pre class="alert alert-info">Time is: {{mytime | date:'shortTime' }}</pre>
+
+<h1>Rating</h1>
+
+<rating ng-model="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+    <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
+
+    <pre style="margin:15px 0;">Rate: <b>{{rate}}</b> - Readonly is: <i>{{isReadonly}}</i> - Hovering over: <b>{{overStar || "none"}}</b></pre>
+
+    <button class="btn btn-sm btn-danger" ng-click="rate = 0" ng-disabled="isReadonly">Clear</button>
+    <button class="btn btn-sm btn-default" ng-click="isReadonly = ! isReadonly">Toggle Readonly</button>
+    <hr />
+
+<h1>Tooltip</h1>
+
+   <div class="form-group">
+      <label>Dynamic Tooltip Text</label>
+      <input type="text" ng-model="dynamicTooltipText" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Dynamic Tooltip Popup Text</label>
+      <input type="text" ng-model="dynamicTooltip" class="form-control">
+    </div>
+    <p>
+      <a href="#" tooltip="{{dynamicTooltip}}">{{dynamicTooltipText}}</a>
+</p>
+
+<h1>Typeahead</h1>
+ <pre>Model: {{asyncSelected | json}}</pre>
+    <input type="text" ng-model="asyncSelected" placeholder="Locations loaded via $http" typeahead="address for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control">
+    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+
+  </body>
+</html>
